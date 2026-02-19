@@ -1,0 +1,28 @@
+# Core Data Science Libraries
+numpy==2.3.5
+pandas==3.0.0
+matplotlib==3.10.8
+seaborn==0.13.2
+
+# Machine Learning
+scikit-learn==1.8.0
+lightgbm==4.6.0
+
+# Statistical Analysis
+statsmodels==0.14.6
+scipy==1.17.0
+
+# Market Basket Analysis
+mlxtend==0.24.0
+
+# Model Explainability
+shap==0.50.0
+
+# Utilities
+joblib==1.5.3
+
+# Development Tools (optional)
+# Uncomment if you need these
+# pytest>=7.0.0
+# black>=23.0.0
+# flake8>=6.0.0
