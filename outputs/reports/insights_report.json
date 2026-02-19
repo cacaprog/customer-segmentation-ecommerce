@@ -1,0 +1,301 @@
+{
+  "meta": {
+    "generated_at": "2026-02-18T21:54:26.925344"
+  },
+  "alerts": [
+    {
+      "alert_id": "ALERT_001",
+      "severity": "AMBER",
+      "segment": "Champions",
+      "message": "Champions (8% of customers) drive 47.0% of total revenue. Extreme concentration \u2014 any churn in this segment is existential.",
+      "metric": "Revenue Concentration",
+      "value": 46.96,
+      "threshold": 50,
+      "action_required": "Implement VIP retention programme immediately. Monthly check-ins, early access, dedicated account managers."
+    },
+    {
+      "alert_id": "ALERT_002",
+      "severity": "RED",
+      "segment": "Can't Lose Them",
+      "message": "227 high-value customers haven't purchased in 341 days on average. \u00a31,018,867 in annual revenue at immediate risk.",
+      "metric": "Avg Days Since Last Purchase",
+      "value": 340.6784140969163,
+      "threshold": 365,
+      "action_required": "Launch emergency win-back campaign within 7 days. Personal outreach, exclusive offers, account review call."
+    },
+    {
+      "alert_id": "ALERT_003",
+      "severity": "RED",
+      "segment": "ML Cluster 3",
+      "message": "Cluster 3 has avg churn risk score 71.0/100 with 942 customers and \u00a31,675,272 CLV at stake.",
+      "metric": "Churn Risk Score",
+      "value": 70.98,
+      "threshold": 50,
+      "action_required": "Deploy automated churn prevention drip campaign. 30-60-90 day touchpoint cadence."
+    },
+    {
+      "alert_id": "ALERT_004",
+      "severity": "AMBER",
+      "segment": "At Risk \u2014 High Value",
+      "message": "31 previously high-value customers (CLV >\u00a35,000) are now classified as At Risk. Combined CLV: \u00a3548,371.",
+      "metric": "High-Value At-Risk Count",
+      "value": 31,
+      "threshold": 10,
+      "action_required": "Priority list for sales team personal outreach. Investigate root cause of disengagement."
+    },
+    {
+      "alert_id": "ALERT_005",
+      "severity": "GREEN",
+      "segment": "All Segments",
+      "message": "Sunday generates only 8.9% of weekly revenue vs. 20.4% on Thursdays \u2014 a 2.3x gap. Weekend activity is significantly undermonetised.",
+      "metric": "Sunday vs Thursday Revenue Ratio",
+      "value": 0.4341654429760156,
+      "threshold": 0.5,
+      "action_required": "Test weekend-specific promotions for the 652 Weekend Browser customers."
+    }
+  ],
+  "insights": [
+    {
+      "id": "INS_CHU_001",
+      "category": "churn_risk",
+      "priority": "CRITICAL",
+      "title": "Emergency Win-Back: Can't Lose Them Segment",
+      "headline": "227 formerly loyal customers averaging \u00a34,488 each haven't purchased in nearly a year.",
+      "detail": "The 'Can't Lose Them' segment averages 341 days since last purchase yet maintains strong historical frequency (8.93 purchases) and spend (\u00a34,488 avg). These customers chose to disengage \u2014 likely due to competitive offers, service issues, or changing needs. Win-back cost is far lower than new customer acquisition.",
+      "metric_name": "Avg Days Inactive",
+      "metric_value": "341 days",
+      "revenue_impact": 407546.672,
+      "customers_affected": 227,
+      "recommended_action": "Personal win-back campaign: (1) Personalised email from account manager with 'We miss you' subject. (2) 15% loyalty discount on next order. (3) Phone outreach for top 50 by historical spend. (4) Survey to understand reason for disengagement.",
+      "campaign_timing": "Immediate \u2014 within 7 days",
+      "effort_level": "Quick Win"
+    },
+    {
+      "id": "INS_CHU_002",
+      "category": "churn_risk",
+      "priority": "HIGH",
+      "title": "Pre-emptive Retention: About To Sleep Segment",
+      "headline": "606 customers averaging 313 days inactive \u2014 within 2 months of becoming 'At Risk'.",
+      "detail": "About To Sleep customers have average recency of 313 days but still show some engagement (F-score: 2.47). They represent \u00a3481,964 in historical revenue. Intervening now is 3-5x cheaper than attempting to recover them once fully churned.",
+      "metric_name": "Days Until At-Risk Threshold",
+      "metric_value": "~52 days",
+      "revenue_impact": 144589.40399999998,
+      "customers_affected": 606,
+      "recommended_action": "Automated re-engagement drip: (1) T+0: 'We noticed you haven't ordered recently' email with bestsellers. (2) T+14: Category highlight email based on past purchase behaviour. (3) T+30: Limited-time 10% incentive. (4) T+45: Final personal outreach.",
+      "campaign_timing": "Launch within 14 days",
+      "effort_level": "Medium"
+    },
+    {
+      "id": "INS_CHU_003",
+      "category": "churn_risk",
+      "priority": "HIGH",
+      "title": "ML-Identified Churn Risk Cluster (Cluster 3)",
+      "headline": "942 customers with 71/100 churn risk score despite having real purchase history.",
+      "detail": "ML Cluster 3 customers show an average churn risk score of 70.98 \u2014 the highest of any cluster. They have purchased historically (avg 4.35 times, \u00a31,778 spend) but last bought 354 days ago on average. High bulk-buyer rate (97%) suggests B2B customers potentially switching to a competitor supplier.",
+      "metric_name": "Avg Churn Risk Score",
+      "metric_value": "70.98 / 100",
+      "revenue_impact": 586346.0539999999,
+      "customers_affected": 942,
+      "recommended_action": "B2B-focused win-back: (1) Sales team review of top 100 by CLV. (2) Competitive benchmarking \u2014 survey on pricing/service gaps. (3) Volume discount offer for returning order. (4) Set up regular account review cadence for recovered customers.",
+      "campaign_timing": "Within 30 days",
+      "effort_level": "Medium"
+    },
+    {
+      "id": "INS_GRW_001",
+      "category": "growth",
+      "priority": "HIGH",
+      "title": "Upgrade Pathway: Convert Potential Loyalists to Loyal",
+      "headline": "1,280 Potential Loyalists average only \u00a3526 spend \u2014 vs \u00a33,991 for Loyal Customers.",
+      "detail": "Potential Loyalists represent the largest customer segment (21.8%) but only 3.8% of revenue. Converting just 10% of them to Loyal Customer status would generate an additional \u00a3443,500 in revenue. They've purchased recently (avg 62 days) and are still engaged \u2014 timing is optimal.",
+      "metric_name": "Revenue Uplift Potential (10% conversion)",
+      "metric_value": "\u00a3443,500",
+      "revenue_impact": 443499.52,
+      "customers_affected": 1280,
+      "recommended_action": "Loyalty upgrade programme: (1) 'You're almost a VIP' milestone email at purchase #2. (2) Exclusive early access to new product ranges. (3) Personalised category recommendation based on first purchase. (4) Progress bar showing loyalty tier status.",
+      "campaign_timing": "Ongoing \u2014 launch within 30 days",
+      "effort_level": "Strategic"
+    },
+    {
+      "id": "INS_GRW_002",
+      "category": "growth",
+      "priority": "MEDIUM",
+      "title": "Selective Reactivation: High-Value Lost Customers",
+      "headline": "797 'Lost' customers averaged \u00a32,977 spend \u2014 worth selective reactivation investment.",
+      "detail": "Lost customers represent 13.4% of historical revenue (\u00a32.37M). While mass reactivation is inefficient, targeting the top quartile by Monetary value with personalised outreach could recover significant revenue. Average recency of 139 days suggests some are still reachable.",
+      "metric_name": "Potential Recovery Revenue",
+      "metric_value": "\u00a3474,520",
+      "revenue_impact": 474520.15599999996,
+      "customers_affected": 200,
+      "recommended_action": "Tiered reactivation: (1) Sort Lost customers by Monetary (desc). (2) Top 200 receive personalised email + phone call. (3) Next 300 receive targeted email campaign with 10% incentive. (4) Remainder receive low-cost automated drip only.",
+      "campaign_timing": "Within 60 days",
+      "effort_level": "Medium"
+    },
+    {
+      "id": "INS_OPP_001",
+      "category": "opportunity",
+      "priority": "HIGH",
+      "title": "Cross-Sell: High-Value Customers Buying Narrow Range",
+      "headline": "550 high-value customers averaging \u00a315,770 CLV buy <10 product categories each.",
+      "detail": "These customers have proven purchasing power but concentrated category exposure. Category co-purchase analysis shows HOME DECOR + METAL SIGN (20,047 co-purchases) and HOME DECOR + HEART/LOVE (19,240) are the strongest adjacencies. Recommending just one adjacent category per customer could meaningfully lift basket size.",
+      "metric_name": "Avg CLV of Target Customers",
+      "metric_value": "\u00a315,770",
+      "revenue_impact": 693887.8892000002,
+      "customers_affected": 550,
+      "recommended_action": "Category expansion campaign: (1) Pull each customer's purchase history. (2) Map to top 3 co-purchased categories they haven't bought. (3) Send 'Customers like you also love...' email with 3 category showcases. (4) Bundle offer: 5% off when adding new category to existing order.",
+      "campaign_timing": "Within 30 days",
+      "effort_level": "Medium"
+    },
+    {
+      "id": "INS_OPP_002",
+      "category": "opportunity",
+      "priority": "MEDIUM",
+      "title": "Bundle Opportunity: Bag + Home Decor Power Pair",
+      "headline": "BAG and HOME DECOR are co-purchased in 15,762 basket combinations \u2014 prime for bundling.",
+      "detail": "The Category Co-Purchase Matrix reveals Bag+Home Decor (15,762), Candle+Home Decor (16,157), and Vintage+Home Decor (16,891) as the strongest non-Metal Sign adjacencies. Creating curated bundles at a modest 5% discount would increase average order value while reducing per-category marketing cost.",
+      "metric_name": "Top Co-Purchase Pair Count",
+      "metric_value": "20,047 (Home Decor + Metal Sign)",
+      "revenue_impact": 500000,
+      "customers_affected": 3000,
+      "recommended_action": "Bundle design: (1) Create 5 signature bundles based on top co-purchase pairs. (2) Feature on homepage and in order confirmation emails. (3) A/B test 5% vs 10% bundle discount. (4) Track incremental AOV vs margin impact monthly.",
+      "campaign_timing": "Within 45 days",
+      "effort_level": "Medium"
+    },
+    {
+      "id": "INS_OPP_003",
+      "category": "opportunity",
+      "priority": "HIGH",
+      "title": "Champions Upsell: Premium Category Expansion",
+      "headline": "471 Champion customers averaging \u00a317,692 each \u2014 highest receptivity to premium ranges.",
+      "detail": "Champions buy 29 times on average and have the highest product diversity (12.4 categories) but still allocate 30% of spend to the commoditised HOME DECOR & OTHER category. Introducing curated premium/exclusive ranges would increase AOV and strengthen lock-in. Champions have an F-score of 5.0 \u2014 they are the most reliable feedback source for new products.",
+      "metric_name": "Champions Total Revenue",
+      "metric_value": "\u00a38,333,125",
+      "revenue_impact": 416656.25600000005,
+      "customers_affected": 471,
+      "recommended_action": "VIP product previews: (1) Monthly 'First Look' email with new or seasonal products. (2) Invite top 50 Champions to annual product feedback panel. (3) Introduce exclusive SKU only available to Champions tier. (4) Track Champions AOV monthly for uplift measurement.",
+      "campaign_timing": "Within 14 days",
+      "effort_level": "Quick Win"
+    },
+    {
+      "id": "INS_TMG_001",
+      "category": "timing",
+      "priority": "MEDIUM",
+      "title": "Campaign Timing Optimisation: Tuesday-Thursday Peak",
+      "headline": "Tuesday+Thursday generate 40.5% of weekly revenue \u2014 ideal campaign deployment window.",
+      "detail": "Revenue peaks Tuesday (20.1%) and Thursday (20.4%). Peak hours are 12:00, 10:00, 13:00 \u2014 aligning email sends and promotions to this window maximises visibility during active purchasing intent.",
+      "metric_name": "Best Revenue Window",
+      "metric_value": "Tue-Thu, 10:00\u201313:00",
+      "revenue_impact": 0,
+      "customers_affected": 5878,
+      "recommended_action": "Email deployment schedule: (1) Move all campaign sends to Tuesday 10:00 or Thursday 11:00. (2) Schedule promotional pushes for Wednesday evening (pre-Thursday peak). (3) Avoid Friday afternoon and Saturday sends (lowest engagement). (4) Test Sunday morning sends for Weekend Browser segment specifically.",
+      "campaign_timing": "Implement immediately for all future campaigns",
+      "effort_level": "Quick Win"
+    },
+    {
+      "id": "INS_TMG_002",
+      "category": "timing",
+      "priority": "LOW",
+      "title": "Weekend Browser Micro-Segment: Untapped Weekend Channel",
+      "headline": "652 Weekend Browsers are active when the business is essentially closed (0.05% of Saturday revenue).",
+      "detail": "652 customers (11.1%) predominantly shop on weekends, yet Saturday generates just 0.05% of revenue. This could indicate stock/availability issues on weekends, or a customer segment whose needs are fundamentally different from the weekday B2B majority. Targeted weekend content could convert these browsers into higher-frequency buyers.",
+      "metric_name": "Weekend Browser Count",
+      "metric_value": "652 customers",
+      "revenue_impact": 65200.0,
+      "customers_affected": 652,
+      "recommended_action": "Weekend activation test: (1) Pull Weekend Browser customer list. (2) Send Saturday morning email with 'Weekend Special' offer. (3) Ensure weekend stock visibility and ordering functionality. (4) Measure open rate, CTR, and conversion vs weekday control group.",
+      "campaign_timing": "Test within 60 days",
+      "effort_level": "Quick Win"
+    }
+  ],
+  "opportunity_ranking": [
+    {
+      "insight_id": "INS_CHU_001",
+      "title": "Emergency Win-Back: Can't Lose Them Segment",
+      "revenue_impact_gbp": 407547.0,
+      "customers_affected": 227,
+      "effort_level": "Quick Win",
+      "priority": "CRITICAL",
+      "composite_score": 4891.0,
+      "campaign_timing": "Immediate \u2014 within 7 days"
+    },
+    {
+      "insight_id": "INS_OPP_001",
+      "title": "Cross-Sell: High-Value Customers Buying Narrow Range",
+      "revenue_impact_gbp": 693888.0,
+      "customers_affected": 550,
+      "effort_level": "Medium",
+      "priority": "HIGH",
+      "composite_score": 4163.0,
+      "campaign_timing": "Within 30 days"
+    },
+    {
+      "insight_id": "INS_OPP_003",
+      "title": "Champions Upsell: Premium Category Expansion",
+      "revenue_impact_gbp": 416656.0,
+      "customers_affected": 471,
+      "effort_level": "Quick Win",
+      "priority": "HIGH",
+      "composite_score": 3750.0,
+      "campaign_timing": "Within 14 days"
+    },
+    {
+      "insight_id": "INS_CHU_003",
+      "title": "ML-Identified Churn Risk Cluster (Cluster 3)",
+      "revenue_impact_gbp": 586346.0,
+      "customers_affected": 942,
+      "effort_level": "Medium",
+      "priority": "HIGH",
+      "composite_score": 3518.0,
+      "campaign_timing": "Within 30 days"
+    },
+    {
+      "insight_id": "INS_OPP_002",
+      "title": "Bundle Opportunity: Bag + Home Decor Power Pair",
+      "revenue_impact_gbp": 500000,
+      "customers_affected": 3000,
+      "effort_level": "Medium",
+      "priority": "MEDIUM",
+      "composite_score": 2000.0,
+      "campaign_timing": "Within 45 days"
+    },
+    {
+      "insight_id": "INS_GRW_002",
+      "title": "Selective Reactivation: High-Value Lost Customers",
+      "revenue_impact_gbp": 474520.0,
+      "customers_affected": 200,
+      "effort_level": "Medium",
+      "priority": "MEDIUM",
+      "composite_score": 1898.0,
+      "campaign_timing": "Within 60 days"
+    },
+    {
+      "insight_id": "INS_GRW_001",
+      "title": "Upgrade Pathway: Convert Potential Loyalists to Loyal",
+      "revenue_impact_gbp": 443500.0,
+      "customers_affected": 1280,
+      "effort_level": "Strategic",
+      "priority": "HIGH",
+      "composite_score": 1330.0,
+      "campaign_timing": "Ongoing \u2014 launch within 30 days"
+    },
+    {
+      "insight_id": "INS_CHU_002",
+      "title": "Pre-emptive Retention: About To Sleep Segment",
+      "revenue_impact_gbp": 144589.0,
+      "customers_affected": 606,
+      "effort_level": "Medium",
+      "priority": "HIGH",
+      "composite_score": 868.0,
+      "campaign_timing": "Launch within 14 days"
+    },
+    {
+      "insight_id": "INS_TMG_002",
+      "title": "Weekend Browser Micro-Segment: Untapped Weekend Channel",
+      "revenue_impact_gbp": 65200.0,
+      "customers_affected": 652,
+      "effort_level": "Quick Win",
+      "priority": "LOW",
+      "composite_score": 196.0,
+      "campaign_timing": "Test within 60 days"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+Behavioral_Cluster,Count,avg_basket_size_mean,purchase_frequency_mean,product_diversity_mean,aov_mean,clv_mean,clv_sum,loyalty_index_mean,weekend_ratio_mean,engagement_consistency_mean,R_Score_mean,F_Score_mean,M_Score_mean,Revenue_Pct
+1,2862,189.51,2.1,19.24,329.85,690.03,1974866.27,52.58,0.15,0.95,2.05,2.0,2.1,11.1
+2,3013,252.89,10.27,16.19,416.73,5162.33,15554114.3,84.24,0.14,0.46,3.91,3.95,3.85,87.7
+999,3,57261.83,2.67,19.37,34312.05,71482.87,214448.6,55.28,0.0,0.87,2.33,2.33,5.0,1.2

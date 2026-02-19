@@ -1,0 +1,11 @@
+{
+  "total_revenue": 20972968.138,
+  "total_customers": 5878,
+  "total_transactions": 40078,
+  "avg_order_value": 523.3037611158242,
+  "avg_items_per_order": 284.95199361245574,
+  "date_range_start": "2009-12-01 07:45:00",
+  "date_range_end": "2011-12-09 12:50:00",
+  "countries": 43,
+  "products": 4917
+}

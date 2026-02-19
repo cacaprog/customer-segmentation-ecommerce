@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Retail Intelligence Dashboard — 20260218</title>
+<!-- FIXED: Added react-is dependency which is REQUIRED for Recharts UMD -->
+<!-- FIXED: Updated Recharts from 2.8.0 to 2.12.0 for React 18 compatibility -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<!-- react-is is a peer dependency of Recharts and MUST be loaded before Recharts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.8.1/prop-types.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.12.0/Recharts.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body,#root{min-height:100%;background:#070B14}
+  body{color:#C8D0E0;font-family:'IBM Plex Sans',system-ui,sans-serif}
+  ::-webkit-scrollbar{width:4px;height:4px}
+  ::-webkit-scrollbar-track{background:#0A0F1E}
+  ::-webkit-scrollbar-thumb{background:#1A2235;border-radius:4px}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .fade-in{animation:fadeIn 0.3s ease}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<!-- Injected pipeline data -->
+<script>
+window.__DASHBOARD_DATA__ = {"rfm_summary":{"total_customers":5878,"total_revenue":17743429.178,"avg_customer_value":3018.6167366451173,"median_customer_value":898.915,"avg_recency_days":201.331915617557,"avg_purchase_frequency":6.289384144266758,"segments":{"Champions":{"Customer_Count":471,"Avg_Recency":7.78,"Median_Recency":7.0,"Avg_Frequency":28.62,"Median_Frequency":20.0,"Avg_Monetary":17692.41,"Median_Monetary":7713.57,"Total_Revenue":8333125.12,"Avg_R_Score":5.0,"Avg_F_Score":5.0,"Avg_M_Score":5.0,"Customer_Pct":8.01,"Revenue_Pct":46.96},"Loyal Customers":{"Customer_Count":979,"Avg_Recency":26.04,"Median_Recency":24.0,"Avg_Frequency":9.72,"Median_Frequency":8.0,"Avg_Monetary":3990.92,"Median_Monetary":2430.53,"Total_Revenue":3907110.54,"Avg_R_Score":4.36,"Avg_F_Score":4.44,"Avg_M_Score":4.21,"Customer_Pct":16.66,"Revenue_Pct":22.02},"Lost":{"Customer_Count":797,"Avg_Recency":139.46,"Median_Recency":90.0,"Avg_Frequency":6.53,"Median_Frequency":5.0,"Avg_Monetary":2976.91,"Median_Monetary":1842.14,"Total_Revenue":2372600.78,"Avg_R_Score":3.06,"Avg_F_Score":3.7,"Avg_M_Score":3.85,"Customer_Pct":13.56,"Revenue_Pct":13.37},"Can't Lose Them":{"Customer_Count":227,"Avg_Recency":340.68,"Median_Recency":327.0,"Avg_Frequency":8.93,"Median_Frequency":7.0,"Avg_Monetary":4488.4,"Median_Monetary":2265.2,"Total_Revenue":1018866.68,"Avg_R_Score":1.74,"Avg_F_Score":4.3,"Avg_M_Score":4.37,"Customer_Pct":3.86,"Revenue_Pct":5.74},"Potential Loyalists":{"Customer_Count":1280,"Avg_Recency":61.75,"Median_Recency":48.5,"Avg_Frequency":2.04,"Median_Frequency":2.0,"Avg_Monetary":526.08,"Median_Monetary":468.2,"Total_Revenue":673380.64,"Avg_R_Score":3.8,"Avg_F_Score":2.13,"Avg_M_Score":2.09,"Customer_Pct":21.78,"Revenue_Pct":3.8},"About To Sleep":{"Customer_Count":606,"Avg_Recency":313.17,"Median_Recency":317.5,"Avg_Frequency":2.27,"Median_Frequency":2.0,"Avg_Monetary":795.32,"Median_Monetary":533.54,"Total_Revenue":481964.68,"Avg_R_Score":2.0,"Avg_F_Score":2.47,"Avg_M_Score":2.36,"Customer_Pct":10.31,"Revenue_Pct":2.72},"At Risk":{"Customer_Count":502,"Avg_Recency":473.99,"Median_Recency":464.0,"Avg_Frequency":2.95,"Median_Frequency":2.0,"Avg_Monetary":952.26,"Median_Monetary":729.66,"Total_Revenue":478035.79,"Avg_R_Score":1.19,"Avg_F_Score":2.82,"Avg_M_Score":2.74,"Customer_Pct":8.54,"Revenue_Pct":2.69},"Need Attention":{"Customer_Count":104,"Avg_Recency":106.05,"Median_Recency":91.0,"Avg_Frequency":3.07,"Median_Frequency":3.0,"Avg_Monetary":2435.59,"Median_Monetary":1700.88,"Total_Revenue":253301.3,"Avg_R_Score":3.0,"Avg_F_Score":2.79,"Avg_M_Score":4.13,"Customer_Pct":1.77,"Revenue_Pct":1.43},"Hibernating":{"Customer_Count":901,"Avg_Recency":496.25,"Median_Recency":492.0,"Avg_Frequency":1.05,"Median_Frequency":1.0,"Avg_Monetary":219.14,"Median_Monetary":193.65,"Total_Revenue":197443.88,"Avg_R_Score":1.29,"Avg_F_Score":1.19,"Avg_M_Score":1.27,"Customer_Pct":15.33,"Revenue_Pct":1.11},"Promising":{"Customer_Count":9,"Avg_Recency":91.11,"Median_Recency":81.0,"Avg_Frequency":1.0,"Median_Frequency":1.0,"Avg_Monetary":2455.9,"Median_Monetary":1780.59,"Total_Revenue":22103.1,"Avg_R_Score":3.0,"Avg_F_Score":1.0,"Avg_M_Score":4.22,"Customer_Pct":0.15,"Revenue_Pct":0.12},"Recent Customers":{"Customer_Count":2,"Avg_Recency":24.5,"Median_Recency":24.5,"Avg_Frequency":1.0,"Median_Frequency":1.0,"Avg_Monetary":2748.33,"Median_Monetary":2748.33,"Total_Revenue":5496.66,"Avg_R_Score":4.5,"Avg_F_Score":1.0,"Avg_M_Score":4.5,"Customer_Pct":0.03,"Revenue_Pct":0.03}}},"rfm_segments":[{"Segment":"Champions","Customer_Count":471,"Avg_Recency":7.78,"Median_Recency":7.0,"Avg_Frequency":28.62,"Median_Frequency":20.0,"Avg_Monetary":17692.41,"Median_Monetary":7713.57,"Total_Revenue":8333125.12,"Avg_R_Score":5.0,"Avg_F_Score":5.0,"Avg_M_Score":5.0,"Customer_Pct":8.01,"Revenue_Pct":46.96},{"Segment":"Loyal Customers","Customer_Count":979,"Avg_Recency":26.04,"Median_Recency":24.0,"Avg_Frequency":9.72,"Median_Frequency":8.0,"Avg_Monetary":3990.92,"Median_Monetary":2430.53,"Total_Revenue":3907110.54,"Avg_R_Score":4.36,"Avg_F_Score":4.44,"Avg_M_Score":4.21,"Customer_Pct":16.66,"Revenue_Pct":22.02},{"Segment":"Lost","Customer_Count":797,"Avg_Recency":139.46,"Median_Recency":90.0,"Avg_Frequency":6.53,"Median_Frequency":5.0,"Avg_Monetary":2976.91,"Median_Monetary":1842.14,"Total_Revenue":2372600.78,"Avg_R_Score":3.06,"Avg_F_Score":3.7,"Avg_M_Score":3.85,"Customer_Pct":13.56,"Revenue_Pct":13.37},{"Segment":"Can't Lose Them","Customer_Count":227,"Avg_Recency":340.68,"Median_Recency":327.0,"Avg_Frequency":8.93,"Median_Frequency":7.0,"Avg_Monetary":4488.4,"Median_Monetary":2265.2,"Total_Revenue":1018866.68,"Avg_R_Score":1.74,"Avg_F_Score":4.3,"Avg_M_Score":4.37,"Customer_Pct":3.86,"Revenue_Pct":5.74},{"Segment":"Potential Loyalists","Customer_Count":1280,"Avg_Recency":61.75,"Median_Recency":48.5,"Avg_Frequency":2.04,"Median_Frequency":2.0,"Avg_Monetary":526.08,"Median_Monetary":468.2,"Total_Revenue":673380.64,"Avg_R_Score":3.8,"Avg_F_Score":2.13,"Avg_M_Score":2.09,"Customer_Pct":21.78,"Revenue_Pct":3.8},{"Segment":"About To Sleep","Customer_Count":606,"Avg_Recency":313.17,"Median_Recency":317.5,"Avg_Frequency":2.27,"Median_Frequency":2.0,"Avg_Monetary":795.32,"Median_Monetary":533.54,"Total_Revenue":481964.68,"Avg_R_Score":2.0,"Avg_F_Score":2.47,"Avg_M_Score":2.36,"Customer_Pct":10.31,"Revenue_Pct":2.72},{"Segment":"At Risk","Customer_Count":502,"Avg_Recency":473.99,"Median_Recency":464.0,"Avg_Frequency":2.95,"Median_Frequency":2.0,"Avg_Monetary":952.26,"Median_Monetary":729.66,"Total_Revenue":478035.79,"Avg_R_Score":1.19,"Avg_F_Score":2.82,"Avg_M_Score":2.74,"Customer_Pct":8.54,"Revenue_Pct":2.69},{"Segment":"Need Attention","Customer_Count":104,"Avg_Recency":106.05,"Median_Recency":91.0,"Avg_Frequency":3.07,"Median_Frequency":3.0,"Avg_Monetary":2435.59,"Median_Monetary":1700.88,"Total_Revenue":253301.3,"Avg_R_Score":3.0,"Avg_F_Score":2.79,"Avg_M_Score":4.13,"Customer_Pct":1.77,"Revenue_Pct":1.43},{"Segment":"Hibernating","Customer_Count":901,"Avg_Recency":496.25,"Median_Recency":492.0,"Avg_Frequency":1.05,"Median_Frequency":1.0,"Avg_Monetary":219.14,"Median_Monetary":193.65,"Total_Revenue":197443.88,"Avg_R_Score":1.29,"Avg_F_Score":1.19,"Avg_M_Score":1.27,"Customer_Pct":15.33,"Revenue_Pct":1.11},{"Segment":"Promising","Customer_Count":9,"Avg_Recency":91.11,"Median_Recency":81.0,"Avg_Frequency":1.0,"Median_Frequency":1.0,"Avg_Monetary":2455.9,"Median_Monetary":1780.59,"Total_Revenue":22103.1,"Avg_R_Score":3.0,"Avg_F_Score":1.0,"Avg_M_Score":4.22,"Customer_Pct":0.15,"Revenue_Pct":0.12},{"Segment":"Recent Customers","Customer_Count":2,"Avg_Recency":24.5,"Median_Recency":24.5,"Avg_Frequency":1.0,"Median_Frequency":1.0,"Avg_Monetary":2748.33,"Median_Monetary":2748.33,"Total_Revenue":5496.66,"Avg_R_Score":4.5,"Avg_F_Score":1.0,"Avg_M_Score":4.5,"Customer_Pct":0.03,"Revenue_Pct":0.03}],"rfm_clusters":[{"RFM_Enhanced_Cluster":0,"Customer_Count":965,"R_Score_mean":2.06,"F_Score_mean":1.75,"M_Score_mean":1.29,"Recency_mean":350.57,"Frequency_mean":1.59,"Monetary_mean":295.35,"clv_mean":295.35,"clv_sum":285012.18,"product_diversity_mean":10.4,"is_bulk_buyer_mean":0.0,"purchase_velocity_mean":0.25,"loyalty_index_mean":58.66,"churn_risk_score_mean":41.34,"weekend_ratio_mean":0.16,"Customer_Pct":16.4,"Revenue_Pct":1.6},{"RFM_Enhanced_Cluster":1,"Customer_Count":1241,"R_Score_mean":2.25,"F_Score_mean":1.5,"M_Score_mean":1.98,"Recency_mean":308.25,"Frequency_mean":1.26,"Monetary_mean":531.26,"clv_mean":531.26,"clv_sum":659294.15,"product_diversity_mean":26.37,"is_bulk_buyer_mean":1.0,"purchase_velocity_mean":0.24,"loyalty_index_mean":64.98,"churn_risk_score_mean":35.02,"weekend_ratio_mean":0.13,"Customer_Pct":21.1,"Revenue_Pct":3.7},{"RFM_Enhanced_Cluster":2,"Customer_Count":259,"R_Score_mean":4.22,"F_Score_mean":3.05,"M_Score_mean":3.14,"Recency_mean":73.76,"Frequency_mean":18.41,"Monetary_mean":15137.75,"clv_mean":15137.75,"clv_sum":3920676.32,"product_diversity_mean":19.35,"is_bulk_buyer_mean":0.92,"purchase_velocity_mean":4.64,"loyalty_index_mean":90.88,"churn_risk_score_mean":9.12,"weekend_ratio_mean":0.18,"Customer_Pct":4.4,"Revenue_Pct":22.1},{"RFM_Enhanced_Cluster":3,"Customer_Count":942,"R_Score_mean":1.75,"F_Score_mean":3.24,"M_Score_mean":3.22,"Recency_mean":353.63,"Frequency_mean":4.35,"Monetary_mean":1778.42,"clv_mean":1778.42,"clv_sum":1675274.44,"product_diversity_mean":16.67,"is_bulk_buyer_mean":0.97,"purchase_velocity_mean":0.66,"loyalty_index_mean":29.02,"churn_risk_score_mean":70.98,"weekend_ratio_mean":0.14,"Customer_Pct":16.0,"Revenue_Pct":9.4},{"RFM_Enhanced_Cluster":4,"Customer_Count":2463,"R_Score_mean":4.1,"F_Score_mean":4.15,"M_Score_mean":4.09,"Recency_mean":43.88,"Frequency_mean":10.15,"Monetary_mean":4544.74,"clv_mean":4544.74,"clv_sum":11193694.21,"product_diversity_mean":16.36,"is_bulk_buyer_mean":0.97,"purchase_velocity_mean":0.62,"loyalty_index_mean":87.67,"churn_risk_score_mean":12.33,"weekend_ratio_mean":0.15,"Customer_Pct":41.9,"Revenue_Pct":63.1},{"RFM_Enhanced_Cluster":999,"Customer_Count":8,"R_Score_mean":2.38,"F_Score_mean":2.88,"M_Score_mean":2.5,"Recency_mean":286.62,"Frequency_mean":3.25,"Monetary_mean":1184.73,"clv_mean":1184.73,"clv_sum":9477.87,"product_diversity_mean":16.1,"is_bulk_buyer_mean":0.75,"purchase_velocity_mean":67.88,"loyalty_index_mean":48.85,"churn_risk_score_mean":51.15,"weekend_ratio_mean":0.12,"Customer_Pct":0.1,"Revenue_Pct":0.1}],"behavioral_clusters":[{"Behavioral_Cluster":1,"Count":2862,"avg_basket_size_mean":189.51,"purchase_frequency_mean":2.1,"product_diversity_mean":19.24,"aov_mean":329.85,"clv_mean":690.03,"clv_sum":1974866.27,"loyalty_index_mean":52.58,"weekend_ratio_mean":0.15,"engagement_consistency_mean":0.95,"R_Score_mean":2.05,"F_Score_mean":2.0,"M_Score_mean":2.1,"Revenue_Pct":11.1},{"Behavioral_Cluster":2,"Count":3013,"avg_basket_size_mean":252.89,"purchase_frequency_mean":10.27,"product_diversity_mean":16.19,"aov_mean":416.73,"clv_mean":5162.33,"clv_sum":15554114.3,"loyalty_index_mean":84.24,"weekend_ratio_mean":0.14,"engagement_consistency_mean":0.46,"R_Score_mean":3.91,"F_Score_mean":3.95,"M_Score_mean":3.85,"Revenue_Pct":87.7},{"Behavioral_Cluster":999,"Count":3,"avg_basket_size_mean":57261.83,"purchase_frequency_mean":2.67,"product_diversity_mean":19.37,"aov_mean":34312.05,"clv_mean":71482.87,"clv_sum":214448.6,"loyalty_index_mean":55.28,"weekend_ratio_mean":0.0,"engagement_consistency_mean":0.87,"R_Score_mean":2.33,"F_Score_mean":2.33,"M_Score_mean":5.0,"Revenue_Pct":1.2}],"daily_patterns":[{"DayName":"Monday","Num_Transactions":185461,"Total_Revenue":3601098.37,"Avg_Txn_Value":19.42,"Median_Txn_Value":9.35,"Unique_Customers":2549,"Revenue_Pct":17.3},{"DayName":"Tuesday","Num_Transactions":191686,"Total_Revenue":4185862.91,"Avg_Txn_Value":21.84,"Median_Txn_Value":10.08,"Unique_Customers":2754,"Revenue_Pct":20.11},{"DayName":"Wednesday","Num_Transactions":180993,"Total_Revenue":3562864.5,"Avg_Txn_Value":19.69,"Median_Txn_Value":10.2,"Unique_Customers":2755,"Revenue_Pct":17.12},{"DayName":"Thursday","Num_Transactions":197737,"Total_Revenue":4252797.81,"Avg_Txn_Value":21.51,"Median_Txn_Value":10.5,"Unique_Customers":3000,"Revenue_Pct":20.43},{"DayName":"Friday","Num_Transactions":149993,"Total_Revenue":3354855.06,"Avg_Txn_Value":22.37,"Median_Txn_Value":10.2,"Unique_Customers":2441,"Revenue_Pct":16.12},{"DayName":"Saturday","Num_Transactions":400,"Total_Revenue":9803.05,"Avg_Txn_Value":24.51,"Median_Txn_Value":17.7,"Unique_Customers":26,"Revenue_Pct":0.05},{"DayName":"Sunday","Num_Transactions":138151,"Total_Revenue":1847010.29,"Avg_Txn_Value":13.37,"Median_Txn_Value":7.49,"Unique_Customers":2128,"Revenue_Pct":8.87}],"hourly_patterns":[{"Hour":6,"Num_Transactions":1,"Total_Revenue":4.25,"Avg_Txn_Value":4.25,"Median_Txn_Value":4.25,"Unique_Customers":1,"Revenue_Pct":0.0},{"Hour":7,"Num_Transactions":1064,"Total_Revenue":76232.57,"Avg_Txn_Value":71.65,"Median_Txn_Value":29.89,"Unique_Customers":67,"Revenue_Pct":0.37},{"Hour":8,"Num_Transactions":15688,"Total_Revenue":532824.25,"Avg_Txn_Value":33.96,"Median_Txn_Value":17.7,"Unique_Customers":690,"Revenue_Pct":2.56},{"Hour":9,"Num_Transactions":67140,"Total_Revenue":1802195.01,"Avg_Txn_Value":26.84,"Median_Txn_Value":14.85,"Unique_Customers":1391,"Revenue_Pct":8.66},{"Hour":10,"Num_Transactions":90877,"Total_Revenue":2629271.8,"Avg_Txn_Value":28.93,"Median_Txn_Value":15.0,"Unique_Customers":2028,"Revenue_Pct":12.63},{"Hour":11,"Num_Transactions":118807,"Total_Revenue":2540489.66,"Avg_Txn_Value":21.38,"Median_Txn_Value":10.0,"Unique_Customers":2139,"Revenue_Pct":12.21},{"Hour":12,"Num_Transactions":156812,"Total_Revenue":2871299.48,"Avg_Txn_Value":18.31,"Median_Txn_Value":9.9,"Unique_Customers":2589,"Revenue_Pct":13.79},{"Hour":13,"Num_Transactions":147516,"Total_Revenue":2548975.89,"Avg_Txn_Value":17.28,"Median_Txn_Value":9.9,"Unique_Customers":2570,"Revenue_Pct":12.25},{"Hour":14,"Num_Transactions":139004,"Total_Revenue":2363471.35,"Avg_Txn_Value":17.0,"Median_Txn_Value":9.9,"Unique_Customers":2343,"Revenue_Pct":11.36},{"Hour":15,"Num_Transactions":132936,"Total_Revenue":2478204.48,"Avg_Txn_Value":18.64,"Median_Txn_Value":8.29,"Unique_Customers":2119,"Revenue_Pct":11.91},{"Hour":16,"Num_Transactions":91842,"Total_Revenue":1641125.32,"Avg_Txn_Value":17.87,"Median_Txn_Value":6.6,"Unique_Customers":1368,"Revenue_Pct":7.88},{"Hour":17,"Num_Transactions":55757,"Total_Revenue":879212.12,"Avg_Txn_Value":15.77,"Median_Txn_Value":6.25,"Unique_Customers":787,"Revenue_Pct":4.22},{"Hour":18,"Num_Transactions":16378,"Total_Revenue":282138.99,"Avg_Txn_Value":17.23,"Median_Txn_Value":6.96,"Unique_Customers":307,"Revenue_Pct":1.36},{"Hour":19,"Num_Transactions":8551,"Total_Revenue":128991.01,"Avg_Txn_Value":15.08,"Median_Txn_Value":5.95,"Unique_Customers":195,"Revenue_Pct":0.62},{"Hour":20,"Num_Transactions":2048,"Total_Revenue":39855.8,"Avg_Txn_Value":19.46,"Median_Txn_Value":4.65,"Unique_Customers":35,"Revenue_Pct":0.19}],"insights":{"meta":{"generated_at":"2026-02-18T21:54:26.925344"},"alerts":[{"alert_id":"ALERT_001","severity":"AMBER","segment":"Champions","message":"Champions (8% of customers) drive 47.0% of total revenue. Extreme concentration — any churn in this segment is existential.","metric":"Revenue Concentration","value":46.96,"threshold":50,"action_required":"Implement VIP retention programme immediately. Monthly check-ins, early access, dedicated account managers."},{"alert_id":"ALERT_002","severity":"RED","segment":"Can't Lose Them","message":"227 high-value customers haven't purchased in 341 days on average. £1,018,867 in annual revenue at immediate risk.","metric":"Avg Days Since Last Purchase","value":340.6784140969163,"threshold":365,"action_required":"Launch emergency win-back campaign within 7 days. Personal outreach, exclusive offers, account review call."},{"alert_id":"ALERT_003","severity":"RED","segment":"ML Cluster 3","message":"Cluster 3 has avg churn risk score 71.0/100 with 942 customers and £1,675,272 CLV at stake.","metric":"Churn Risk Score","value":70.98,"threshold":50,"action_required":"Deploy automated churn prevention drip campaign. 30-60-90 day touchpoint cadence."},{"alert_id":"ALERT_004","severity":"AMBER","segment":"At Risk — High Value","message":"31 previously high-value customers (CLV >£5,000) are now classified as At Risk. Combined CLV: £548,371.","metric":"High-Value At-Risk Count","value":31,"threshold":10,"action_required":"Priority list for sales team personal outreach. Investigate root cause of disengagement."},{"alert_id":"ALERT_005","severity":"GREEN","segment":"All Segments","message":"Sunday generates only 8.9% of weekly revenue vs. 20.4% on Thursdays — a 2.3x gap. Weekend activity is significantly undermonetised.","metric":"Sunday vs Thursday Revenue Ratio","value":0.4341654429760156,"threshold":0.5,"action_required":"Test weekend-specific promotions for the 652 Weekend Browser customers."}],"insights":[{"id":"INS_CHU_001","category":"churn_risk","priority":"CRITICAL","title":"Emergency Win-Back: Can't Lose Them Segment","headline":"227 formerly loyal customers averaging £4,488 each haven't purchased in nearly a year.","detail":"The 'Can't Lose Them' segment averages 341 days since last purchase yet maintains strong historical frequency (8.93 purchases) and spend (£4,488 avg). These customers chose to disengage — likely due to competitive offers, service issues, or changing needs. Win-back cost is far lower than new customer acquisition.","metric_name":"Avg Days Inactive","metric_value":"341 days","revenue_impact":407546.672,"customers_affected":227,"recommended_action":"Personal win-back campaign: (1) Personalised email from account manager with 'We miss you' subject. (2) 15% loyalty discount on next order. (3) Phone outreach for top 50 by historical spend. (4) Survey to understand reason for disengagement.","campaign_timing":"Immediate — within 7 days","effort_level":"Quick Win"},{"id":"INS_CHU_002","category":"churn_risk","priority":"HIGH","title":"Pre-emptive Retention: About To Sleep Segment","headline":"606 customers averaging 313 days inactive — within 2 months of becoming 'At Risk'.","detail":"About To Sleep customers have average recency of 313 days but still show some engagement (F-score: 2.47). They represent £481,964 in historical revenue. Intervening now is 3-5x cheaper than attempting to recover them once fully churned.","metric_name":"Days Until At-Risk Threshold","metric_value":"~52 days","revenue_impact":144589.40399999998,"customers_affected":606,"recommended_action":"Automated re-engagement drip: (1) T+0: 'We noticed you haven't ordered recently' email with bestsellers. (2) T+14: Category highlight email based on past purchase behaviour. (3) T+30: Limited-time 10% incentive. (4) T+45: Final personal outreach.","campaign_timing":"Launch within 14 days","effort_level":"Medium"},{"id":"INS_CHU_003","category":"churn_risk","priority":"HIGH","title":"ML-Identified Churn Risk Cluster (Cluster 3)","headline":"942 customers with 71/100 churn risk score despite having real purchase history.","detail":"ML Cluster 3 customers show an average churn risk score of 70.98 — the highest of any cluster. They have purchased historically (avg 4.35 times, £1,778 spend) but last bought 354 days ago on average. High bulk-buyer rate (97%) suggests B2B customers potentially switching to a competitor supplier.","metric_name":"Avg Churn Risk Score","metric_value":"70.98 / 100","revenue_impact":586346.0539999999,"customers_affected":942,"recommended_action":"B2B-focused win-back: (1) Sales team review of top 100 by CLV. (2) Competitive benchmarking — survey on pricing/service gaps. (3) Volume discount offer for returning order. (4) Set up regular account review cadence for recovered customers.","campaign_timing":"Within 30 days","effort_level":"Medium"},{"id":"INS_GRW_001","category":"growth","priority":"HIGH","title":"Upgrade Pathway: Convert Potential Loyalists to Loyal","headline":"1,280 Potential Loyalists average only £526 spend — vs £3,991 for Loyal Customers.","detail":"Potential Loyalists represent the largest customer segment (21.8%) but only 3.8% of revenue. Converting just 10% of them to Loyal Customer status would generate an additional £443,500 in revenue. They've purchased recently (avg 62 days) and are still engaged — timing is optimal.","metric_name":"Revenue Uplift Potential (10% conversion)","metric_value":"£443,500","revenue_impact":443499.52,"customers_affected":1280,"recommended_action":"Loyalty upgrade programme: (1) 'You're almost a VIP' milestone email at purchase #2. (2) Exclusive early access to new product ranges. (3) Personalised category recommendation based on first purchase. (4) Progress bar showing loyalty tier status.","campaign_timing":"Ongoing — launch within 30 days","effort_level":"Strategic"},{"id":"INS_GRW_002","category":"growth","priority":"MEDIUM","title":"Selective Reactivation: High-Value Lost Customers","headline":"797 'Lost' customers averaged £2,977 spend — worth selective reactivation investment.","detail":"Lost customers represent 13.4% of historical revenue (£2.37M). While mass reactivation is inefficient, targeting the top quartile by Monetary value with personalised outreach could recover significant revenue. Average recency of 139 days suggests some are still reachable.","metric_name":"Potential Recovery Revenue","metric_value":"£474,520","revenue_impact":474520.15599999996,"customers_affected":200,"recommended_action":"Tiered reactivation: (1) Sort Lost customers by Monetary (desc). (2) Top 200 receive personalised email + phone call. (3) Next 300 receive targeted email campaign with 10% incentive. (4) Remainder receive low-cost automated drip only.","campaign_timing":"Within 60 days","effort_level":"Medium"},{"id":"INS_OPP_001","category":"opportunity","priority":"HIGH","title":"Cross-Sell: High-Value Customers Buying Narrow Range","headline":"550 high-value customers averaging £15,770 CLV buy <10 product categories each.","detail":"These customers have proven purchasing power but concentrated category exposure. Category co-purchase analysis shows HOME DECOR + METAL SIGN (20,047 co-purchases) and HOME DECOR + HEART/LOVE (19,240) are the strongest adjacencies. Recommending just one adjacent category per customer could meaningfully lift basket size.","metric_name":"Avg CLV of Target Customers","metric_value":"£15,770","revenue_impact":693887.8892000002,"customers_affected":550,"recommended_action":"Category expansion campaign: (1) Pull each customer's purchase history. (2) Map to top 3 co-purchased categories they haven't bought. (3) Send 'Customers like you also love...' email with 3 category showcases. (4) Bundle offer: 5% off when adding new category to existing order.","campaign_timing":"Within 30 days","effort_level":"Medium"},{"id":"INS_OPP_002","category":"opportunity","priority":"MEDIUM","title":"Bundle Opportunity: Bag + Home Decor Power Pair","headline":"BAG and HOME DECOR are co-purchased in 15,762 basket combinations — prime for bundling.","detail":"The Category Co-Purchase Matrix reveals Bag+Home Decor (15,762), Candle+Home Decor (16,157), and Vintage+Home Decor (16,891) as the strongest non-Metal Sign adjacencies. Creating curated bundles at a modest 5% discount would increase average order value while reducing per-category marketing cost.","metric_name":"Top Co-Purchase Pair Count","metric_value":"20,047 (Home Decor + Metal Sign)","revenue_impact":500000,"customers_affected":3000,"recommended_action":"Bundle design: (1) Create 5 signature bundles based on top co-purchase pairs. (2) Feature on homepage and in order confirmation emails. (3) A/B test 5% vs 10% bundle discount. (4) Track incremental AOV vs margin impact monthly.","campaign_timing":"Within 45 days","effort_level":"Medium"},{"id":"INS_OPP_003","category":"opportunity","priority":"HIGH","title":"Champions Upsell: Premium Category Expansion","headline":"471 Champion customers averaging £17,692 each — highest receptivity to premium ranges.","detail":"Champions buy 29 times on average and have the highest product diversity (12.4 categories) but still allocate 30% of spend to the commoditised HOME DECOR & OTHER category. Introducing curated premium/exclusive ranges would increase AOV and strengthen lock-in. Champions have an F-score of 5.0 — they are the most reliable feedback source for new products.","metric_name":"Champions Total Revenue","metric_value":"£8,333,125","revenue_impact":416656.25600000005,"customers_affected":471,"recommended_action":"VIP product previews: (1) Monthly 'First Look' email with new or seasonal products. (2) Invite top 50 Champions to annual product feedback panel. (3) Introduce exclusive SKU only available to Champions tier. (4) Track Champions AOV monthly for uplift measurement.","campaign_timing":"Within 14 days","effort_level":"Quick Win"},{"id":"INS_TMG_001","category":"timing","priority":"MEDIUM","title":"Campaign Timing Optimisation: Tuesday-Thursday Peak","headline":"Tuesday+Thursday generate 40.5% of weekly revenue — ideal campaign deployment window.","detail":"Revenue peaks Tuesday (20.1%) and Thursday (20.4%). Peak hours are 12:00, 10:00, 13:00 — aligning email sends and promotions to this window maximises visibility during active purchasing intent.","metric_name":"Best Revenue Window","metric_value":"Tue-Thu, 10:00–13:00","revenue_impact":0,"customers_affected":5878,"recommended_action":"Email deployment schedule: (1) Move all campaign sends to Tuesday 10:00 or Thursday 11:00. (2) Schedule promotional pushes for Wednesday evening (pre-Thursday peak). (3) Avoid Friday afternoon and Saturday sends (lowest engagement). (4) Test Sunday morning sends for Weekend Browser segment specifically.","campaign_timing":"Implement immediately for all future campaigns","effort_level":"Quick Win"},{"id":"INS_TMG_002","category":"timing","priority":"LOW","title":"Weekend Browser Micro-Segment: Untapped Weekend Channel","headline":"652 Weekend Browsers are active when the business is essentially closed (0.05% of Saturday revenue).","detail":"652 customers (11.1%) predominantly shop on weekends, yet Saturday generates just 0.05% of revenue. This could indicate stock/availability issues on weekends, or a customer segment whose needs are fundamentally different from the weekday B2B majority. Targeted weekend content could convert these browsers into higher-frequency buyers.","metric_name":"Weekend Browser Count","metric_value":"652 customers","revenue_impact":65200.0,"customers_affected":652,"recommended_action":"Weekend activation test: (1) Pull Weekend Browser customer list. (2) Send Saturday morning email with 'Weekend Special' offer. (3) Ensure weekend stock visibility and ordering functionality. (4) Measure open rate, CTR, and conversion vs weekday control group.","campaign_timing":"Test within 60 days","effort_level":"Quick Win"}],"opportunity_ranking":[{"insight_id":"INS_CHU_001","title":"Emergency Win-Back: Can't Lose Them Segment","revenue_impact_gbp":407547.0,"customers_affected":227,"effort_level":"Quick Win","priority":"CRITICAL","composite_score":4891.0,"campaign_timing":"Immediate — within 7 days"},{"insight_id":"INS_OPP_001","title":"Cross-Sell: High-Value Customers Buying Narrow Range","revenue_impact_gbp":693888.0,"customers_affected":550,"effort_level":"Medium","priority":"HIGH","composite_score":4163.0,"campaign_timing":"Within 30 days"},{"insight_id":"INS_OPP_003","title":"Champions Upsell: Premium Category Expansion","revenue_impact_gbp":416656.0,"customers_affected":471,"effort_level":"Quick Win","priority":"HIGH","composite_score":3750.0,"campaign_timing":"Within 14 days"},{"insight_id":"INS_CHU_003","title":"ML-Identified Churn Risk Cluster (Cluster 3)","revenue_impact_gbp":586346.0,"customers_affected":942,"effort_level":"Medium","priority":"HIGH","composite_score":3518.0,"campaign_timing":"Within 30 days"},{"insight_id":"INS_OPP_002","title":"Bundle Opportunity: Bag + Home Decor Power Pair","revenue_impact_gbp":500000,"customers_affected":3000,"effort_level":"Medium","priority":"MEDIUM","composite_score":2000.0,"campaign_timing":"Within 45 days"},{"insight_id":"INS_GRW_002","title":"Selective Reactivation: High-Value Lost Customers","revenue_impact_gbp":474520.0,"customers_affected":200,"effort_level":"Medium","priority":"MEDIUM","composite_score":1898.0,"campaign_timing":"Within 60 days"},{"insight_id":"INS_GRW_001","title":"Upgrade Pathway: Convert Potential Loyalists to Loyal","revenue_impact_gbp":443500.0,"customers_affected":1280,"effort_level":"Strategic","priority":"HIGH","composite_score":1330.0,"campaign_timing":"Ongoing — launch within 30 days"},{"insight_id":"INS_CHU_002","title":"Pre-emptive Retention: About To Sleep Segment","revenue_impact_gbp":144589.0,"customers_affected":606,"effort_level":"Medium","priority":"HIGH","composite_score":868.0,"campaign_timing":"Launch within 14 days"},{"insight_id":"INS_TMG_002","title":"Weekend Browser Micro-Segment: Untapped Weekend Channel","revenue_impact_gbp":65200.0,"customers_affected":652,"effort_level":"Quick Win","priority":"LOW","composite_score":196.0,"campaign_timing":"Test within 60 days"}]},"_meta":{"generated_at":"2026-02-18 22:19","files_loaded":7}};
+</script>
+<script type="text/babel">
+
+const {
+  useState, useCallback, useRef,
+  PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip,
+  ResponsiveContainer, LineChart, Line, ScatterChart, Scatter, ZAxis
+} = { ...React, ...Recharts };
+
+// ── INJECTED DATA ────────────────────────────────────────────────────────
+const INJECTED = window.__DASHBOARD_DATA__;
+
+// ── THEME ────────────────────────────────────────────────────────────────
+const T = {
+  bg:"#070B14", border:"#1A2235", text:"#C8D0E0", muted:"#6B7894",
+  dim:"#3A4560", subtle:"#8892A4",
+  green:"#00E5A0", blue:"#00C4FF", purple:"#A78BFA",
+  yellow:"#FBBF24", orange:"#F97316", red:"#EF4444",
+  mono:"'DM Mono',monospace",
+};
+
+const SEVERITY_COLOR  = { RED:T.red, AMBER:T.yellow, GREEN:T.green };
+const PRIORITY_COLOR  = { CRITICAL:T.red, HIGH:T.orange, MEDIUM:T.yellow, LOW:T.blue };
+const EFFORT_COLOR    = { "Quick Win":T.green, Medium:T.yellow, Strategic:T.purple };
+const CATEGORY_COLOR  = { churn_risk:T.red, growth:T.green, opportunity:T.blue, timing:T.purple };
+const SEG_COLORS = {
+  "Champions":T.green,"Loyal Customers":T.blue,"Lost":T.red,
+  "Potential Loyalists":T.purple,"Hibernating":"#6B7280",
+  "At Risk":T.orange,"Can't Lose Them":"#EF4444",
+  "About To Sleep":T.yellow,"Need Attention":"#FB923C",
+  "Promising":"#34D399","Recent Customers":"#60A5FA",
+};
+
+const fmt  = n => n>=1e6?`£${(n/1e6).toFixed(2)}M`:n>=1e3?`£${(n/1e3).toFixed(0)}K`:`£${Number(n).toFixed(0)}`;
+const fmtN = n => Number(n).toLocaleString();
+
+// ── SHARED UI ────────────────────────────────────────────────────────────
+const card = {background:"rgba(13,17,30,0.9)",border:"1px solid #1A2235",borderRadius:10,padding:20};
+
+function KPICard({label,value,sub,accent}){
+  return (
+    <div style={{...card,borderTop:`2px solid ${accent}`,position:"relative",overflow:"hidden"}}>
+      <div style={{position:"absolute",top:0,right:0,width:44,height:44,background:`${accent}08`,borderRadius:"0 0 0 44px"}}/>
+      <div style={{fontSize:10,color:T.subtle,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:6}}>{label}</div>
+      <div style={{fontSize:22,fontWeight:700,color:"#F0F4FF",fontFamily:T.mono}}>{value}</div>
+      {sub&&<div style={{fontSize:11,color:accent,marginTop:4}}>{sub}</div>}
+    </div>
+  );
+}
+
+function SectionTitle({children,accent=T.green}){
+  return (
+    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
+      <div style={{width:3,height:16,background:accent,borderRadius:2}}/>
+      <span style={{fontSize:11,fontWeight:600,color:T.text,letterSpacing:"0.1em",textTransform:"uppercase"}}>{children}</span>
+    </div>
+  );
+}
+
+function TT({active,payload,label,fmt:f}){
+  if(!active||!payload?.length) return null;
+  return (
+    <div style={{background:"#0D1117",border:`1px solid ${T.border}`,borderRadius:6,padding:"8px 12px",fontSize:11,color:T.text}}>
+      {label&&<div style={{color:T.subtle,marginBottom:4}}>{label}</div>}
+      {payload.map((p,i)=><div key={i} style={{color:p.color||T.green}}>{f?f(p.value,p.name):(p.value?.toLocaleString?.()??p.value)}</div>)}
+    </div>
+  );
+}
+
+// ── EXECUTIVE TAB ────────────────────────────────────────────────────────
+function ExecutiveTab({data}){
+  const summary=data.rfm_summary;
+  const segments=data.rfm_segments||[];
+  const kpis=summary?[
+    {label:"Total Revenue",value:fmt(summary.total_revenue),sub:"Dec 2009 – Dec 2011",accent:T.green},
+    {label:"Total Customers",value:fmtN(summary.total_customers),sub:"Identified accounts",accent:T.blue},
+    {label:"Avg Customer Value",value:fmt(summary.avg_customer_value),sub:`Median ${fmt(summary.median_customer_value)}`,accent:T.purple},
+    {label:"Avg Purchase Freq.",value:`${Number(summary.avg_purchase_frequency).toFixed(1)}x`,sub:"Per customer",accent:T.yellow},
+  ]:[];
+  const segList=summary?Object.entries(summary.segments).map(([name,d])=>({name,...d})):segments;
+  const pieData=segList.filter(s=>Number(s.Revenue_Pct||0)>0.5).map(s=>({
+    name:s.name||s.Segment,value:Number(s.Revenue_Pct||0),color:SEG_COLORS[s.name||s.Segment]||T.blue,
+  }));
+  const barData=[...segList].sort((a,b)=>Number(b.Revenue_Pct||0)-Number(a.Revenue_Pct||0)).slice(0,8).map(s=>({
+    name:s.name||s.Segment,revPct:Number(s.Revenue_Pct||0),color:SEG_COLORS[s.name||s.Segment]||T.blue,
+  }));
+  const champs=segList.find(s=>(s.name||s.Segment)==="Champions");
+  return (
+    <div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:12,marginBottom:16}}>
+        {kpis.map(k=><KPICard key={k.label} {...k}/>)}
+      </div>
+      {champs&&(
+        <div style={{...card,borderLeft:`3px solid ${T.green}`,marginBottom:16,display:"flex",alignItems:"center",gap:14}}>
+          <div style={{fontSize:18}}>⚡</div>
+          <div style={{fontSize:12,color:T.subtle}}>
+            <span style={{color:"#F0F4FF",fontWeight:600}}>Pareto Insight: </span>
+            Top {Number(champs.Customer_Pct||8).toFixed(0)}% of customers (Champions, {fmtN(champs.Customer_Count||471)} accounts) generate{" "}
+            <span style={{color:T.green,fontWeight:600}}>{Number(champs.Revenue_Pct||47).toFixed(1)}%</span> of total revenue.
+            Protecting this group is the single highest-ROI activity.
+          </div>
+        </div>
+      )}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16}}>
+        <div style={card}>
+          <SectionTitle>Revenue Distribution by Segment</SectionTitle>
+          <ResponsiveContainer width="100%" height={240}>
+            <PieChart>
+              <Pie data={pieData} cx="40%" cy="50%" innerRadius={60} outerRadius={95} paddingAngle={2} dataKey="value">
+                {pieData.map((e,i)=><Cell key={i} fill={e.color} stroke="none"/>)}
+              </Pie>
+              <Tooltip content={<TT fmt={v=>`${Number(v).toFixed(1)}%`}/>}/>
+            </PieChart>
+          </ResponsiveContainer>
+          <div style={{display:"flex",flexWrap:"wrap",gap:6,marginTop:4}}>
+            {pieData.map(d=>(
+              <div key={d.name} style={{display:"flex",alignItems:"center",gap:4,fontSize:10,color:T.subtle}}>
+                <div style={{width:7,height:7,borderRadius:2,background:d.color}}/>
+                {d.name} ({Number(d.value).toFixed(1)}%)
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={card}>
+          <SectionTitle>Revenue Share by Segment</SectionTitle>
+          <ResponsiveContainer width="100%" height={280}>
+            <BarChart data={barData} layout="vertical" margin={{left:8,right:20}}>
+              <XAxis type="number" tick={{fill:T.dim,fontSize:10}} tickFormatter={v=>`${v}%`}/>
+              <YAxis type="category" dataKey="name" tick={{fill:T.subtle,fontSize:10}} width={130}/>
+              <Tooltip content={<TT fmt={v=>`${Number(v).toFixed(1)}%`}/>}/>
+              <Bar dataKey="revPct" radius={[0,4,4,0]}>
+                {barData.map((s,i)=><Cell key={i} fill={s.color}/>)}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── SEGMENTS TAB ─────────────────────────────────────────────────────────
+function SegmentsTab({data}){
+  const [selected,setSelected]=useState(null);
+  const summary=data.rfm_summary;
+  const segments=summary
+    ?Object.entries(summary.segments).map(([name,d])=>({name,...d}))
+    :(data.rfm_segments||[]).map(s=>({name:s.Segment,...s}));
+  const risk=s=>{const r=Number(s.Avg_Recency||0);if(r>400)return"critical";if(r>200)return"high";if(r>80)return"medium";return"low";};
+  const RISK_COLOR={low:T.green,medium:T.yellow,high:T.orange,critical:T.red};
+  const sel=selected?segments.find(s=>s.name===selected):null;
+  return (
+    <div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:10,marginBottom:16}}>
+        {segments.map(s=>{
+          const r=risk(s);const color=SEG_COLORS[s.name]||T.blue;const isActive=selected===s.name;
+          return (
+            <div key={s.name} onClick={()=>setSelected(isActive?null:s.name)} style={{
+              ...card,cursor:"pointer",borderLeft:`3px solid ${color}`,
+              borderColor:isActive?color:T.border,
+              transform:isActive?"translateY(-2px)":"none",
+              boxShadow:isActive?`0 4px 20px ${color}20`:"none",transition:"all 0.2s",
+            }}>
+              <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
+                <div style={{fontSize:12,fontWeight:600,color:"#F0F4FF"}}>{s.name}</div>
+                <div style={{fontSize:9,padding:"2px 6px",borderRadius:3,background:`${RISK_COLOR[r]}20`,color:RISK_COLOR[r],textTransform:"uppercase"}}>{r}</div>
+              </div>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:6}}>
+                <div><div style={{fontSize:9,color:T.dim}}>Customers</div><div style={{fontSize:15,fontWeight:700,color:color,fontFamily:T.mono}}>{fmtN(s.Customer_Count||0)}</div></div>
+                <div><div style={{fontSize:9,color:T.dim}}>Rev Share</div><div style={{fontSize:15,fontWeight:700,color:"#F0F4FF",fontFamily:T.mono}}>{Number(s.Revenue_Pct||0).toFixed(1)}%</div></div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {sel?(
+        <div style={{...card,borderColor:SEG_COLORS[sel.name]||T.blue}} className="fade-in">
+          <div style={{display:"flex",justifyContent:"space-between",marginBottom:16}}>
+            <div style={{fontSize:15,fontWeight:700,color:"#F0F4FF"}}>{sel.name}</div>
+            <button onClick={()=>setSelected(null)} style={{background:"none",border:"none",color:T.dim,cursor:"pointer",fontSize:16}}>✕</button>
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(5,1fr)",gap:10,marginBottom:14}}>
+            {[
+              {l:"Customers",v:fmtN(sel.Customer_Count||0)},
+              {l:"Revenue Share",v:`${Number(sel.Revenue_Pct||0).toFixed(1)}%`},
+              {l:"Avg Monetary",v:fmt(sel.Avg_Monetary||0)},
+              {l:"Avg Frequency",v:`${Number(sel.Avg_Frequency||0).toFixed(1)}x`},
+              {l:"Avg Recency",v:`${Number(sel.Avg_Recency||0).toFixed(0)}d`},
+            ].map(({l,v})=>(
+              <div key={l} style={{background:"#0A0F1E",padding:"10px 12px",borderRadius:6}}>
+                <div style={{fontSize:9,color:T.dim,marginBottom:3}}>{l}</div>
+                <div style={{fontSize:14,fontWeight:700,color:SEG_COLORS[sel.name]||T.blue,fontFamily:T.mono}}>{v}</div>
+              </div>
+            ))}
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
+            {[["R Score",sel.Avg_R_Score],["F Score",sel.Avg_F_Score],["M Score",sel.Avg_M_Score]].map(([l,v])=>(
+              <div key={l} style={{background:"#0A0F1E",padding:"10px 12px",borderRadius:6}}>
+                <div style={{fontSize:9,color:T.dim,marginBottom:4}}>{l}</div>
+                <div style={{display:"flex",gap:3}}>{[1,2,3,4,5].map(n=>(<div key={n} style={{flex:1,height:6,borderRadius:3,background:n<=Math.round(v||0)?(SEG_COLORS[sel.name]||T.blue):T.border}}/>))}</div>
+                <div style={{fontSize:11,fontWeight:700,color:"#F0F4FF",marginTop:4,fontFamily:T.mono}}>{Number(v||0).toFixed(2)}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ):(
+        <div style={card}>
+          <SectionTitle>Avg Monetary Value by Segment</SectionTitle>
+          <ResponsiveContainer width="100%" height={200}>
+            <BarChart data={segments.slice(0,8).sort((a,b)=>Number(b.Avg_Monetary||0)-Number(a.Avg_Monetary||0))} margin={{top:0,right:20,left:0,bottom:30}}>
+              <XAxis dataKey="name" tick={{fill:T.subtle,fontSize:9}} angle={-25} textAnchor="end"/>
+              <YAxis tick={{fill:T.dim,fontSize:9}} tickFormatter={v=>fmt(v)}/>
+              <Tooltip content={<TT fmt={v=>fmt(v)}/>}/>
+              <Bar dataKey="Avg_Monetary" radius={[4,4,0,0]}>{segments.slice(0,8).map((s,i)=><Cell key={i} fill={SEG_COLORS[s.name]||T.blue}/>)}</Bar>
+            </BarChart>
+          </ResponsiveContainer>
+          <div style={{textAlign:"center",color:T.dim,fontSize:11,marginTop:8}}>Click any segment card to expand details</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── TEMPORAL TAB ─────────────────────────────────────────────────────────
+function TemporalTab({data}){
+  const daily=(data.daily_patterns||[]).map(d=>({day:(d.DayName||"").slice(0,3),revenue:d.Total_Revenue,customers:d.Unique_Customers,isSat:d.DayName==="Saturday",isSun:d.DayName==="Sunday"}));
+  const hourly=(data.hourly_patterns||[]).map(h=>({h:`${String(h.Hour).padStart(2,"0")}`,rev:h.Total_Revenue,txns:h.Num_Transactions}));
+  const peakDay=(data.daily_patterns||[]).reduce((a,b)=>Number(a.Total_Revenue||0)>Number(b.Total_Revenue||0)?a:b,data.daily_patterns?.[0]||{});
+  const peakHour=(data.hourly_patterns||[]).reduce((a,b)=>Number(a.Total_Revenue||0)>Number(b.Total_Revenue||0)?a:b,data.hourly_patterns?.[0]||{});
+  if(!daily.length&&!hourly.length) return <div style={{...card,textAlign:"center",padding:48,color:T.subtle}}>No temporal data available.</div>;
+  return (
+    <div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:16}}>
+        {daily.length>0&&<>
+          <div style={card}>
+            <SectionTitle accent={T.blue}>Revenue by Day of Week</SectionTitle>
+            <ResponsiveContainer width="100%" height={210}>
+              <BarChart data={daily} margin={{top:0,right:10,left:0,bottom:0}}>
+                <XAxis dataKey="day" tick={{fill:T.subtle,fontSize:11}}/>
+                <YAxis tick={{fill:T.dim,fontSize:10}} tickFormatter={v=>fmt(v)}/>
+                <Tooltip content={<TT fmt={v=>fmt(v)}/>}/>
+                <Bar dataKey="revenue" radius={[4,4,0,0]}>{daily.map((d,i)=><Cell key={i} fill={d.isSat?T.red:d.isSun?"#4A5568":T.blue}/>)}</Bar>
+              </BarChart>
+            </ResponsiveContainer>
+            <div style={{marginTop:10,padding:"8px 12px",background:"#0A0F1E",borderRadius:6,fontSize:11,color:T.subtle}}>
+              <span style={{color:T.green}}>Peak: </span>{peakDay.DayName} · {fmt(peakDay.Total_Revenue||0)} · {fmtN(peakDay.Unique_Customers||0)} customers
+            </div>
+          </div>
+          <div style={card}>
+            <SectionTitle accent={T.purple}>Active Customers by Day</SectionTitle>
+            <ResponsiveContainer width="100%" height={210}>
+              <BarChart data={daily} margin={{top:0,right:10,left:0,bottom:0}}>
+                <XAxis dataKey="day" tick={{fill:T.subtle,fontSize:11}}/>
+                <YAxis tick={{fill:T.dim,fontSize:10}}/>
+                <Tooltip content={<TT/>}/>
+                <Bar dataKey="customers" radius={[4,4,0,0]}>{daily.map((d,i)=><Cell key={i} fill={d.isSat?T.red:d.isSun?"#4A5568":T.purple}/>)}</Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </>}
+      </div>
+      {hourly.length>0&&(
+        <div style={card}>
+          <SectionTitle accent={T.yellow}>Hourly Activity — Transactions & Revenue</SectionTitle>
+          <ResponsiveContainer width="100%" height={220}>
+            <LineChart data={hourly} margin={{top:5,right:20,left:0,bottom:0}}>
+              <XAxis dataKey="h" tick={{fill:T.subtle,fontSize:10}} tickFormatter={h=>`${h}h`}/>
+              <YAxis yAxisId="l" tick={{fill:T.dim,fontSize:9}} tickFormatter={v=>fmtN(v)}/>
+              <YAxis yAxisId="r" orientation="right" tick={{fill:T.dim,fontSize:9}} tickFormatter={v=>fmt(v)}/>
+              <Tooltip content={<TT fmt={(v,n)=>n==="Revenue"?fmt(v):fmtN(v)}/>}/>
+              <Line yAxisId="l" type="monotone" dataKey="txns" stroke={T.blue} strokeWidth={2} dot={false} name="Transactions"/>
+              <Line yAxisId="r" type="monotone" dataKey="rev" stroke={T.yellow} strokeWidth={2} dot={false} name="Revenue"/>
+            </LineChart>
+          </ResponsiveContainer>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8,marginTop:12}}>
+            {[
+              {label:"Peak Hour",value:`${String(peakHour.Hour||12).padStart(2,"0")}:00`,sub:"Highest revenue",color:T.yellow},
+              {label:"Optimal Send Time",value:"09:00–11:00",sub:"Campaign deployment",color:T.blue},
+              {label:"After-Hours",value:"<2%",sub:"Post 18h near zero",color:T.dim},
+            ].map(i=>(
+              <div key={i.label} style={{padding:"10px 12px",background:"#0A0F1E",borderRadius:6,borderLeft:`3px solid ${i.color}`}}>
+                <div style={{fontSize:9,color:T.dim}}>{i.label}</div>
+                <div style={{fontSize:13,fontWeight:700,color:i.color,fontFamily:T.mono}}>{i.value}</div>
+                <div style={{fontSize:10,color:T.subtle}}>{i.sub}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── CLUSTERS TAB ─────────────────────────────────────────────────────────
+function ClustersTab({data}){
+  const COLORS=[T.blue,T.green,T.yellow,T.orange,T.purple,T.red];
+  const rfmClusters=(data.rfm_clusters||[]).filter(c=>c.RFM_Enhanced_Cluster!==999);
+  const behClusters=(data.behavioral_clusters||[]).filter(c=>c.Behavioral_Cluster!==999);
+  if(!rfmClusters.length&&!behClusters.length) return <div style={{...card,textAlign:"center",padding:48,color:T.subtle}}>No cluster data available.</div>;
+  const rfmChart=rfmClusters.map((c,i)=>({name:`C${c.RFM_Enhanced_Cluster}`,customers:c.Customer_Count,revPct:c.Revenue_Pct,clv:c.clv_mean,churnRisk:c.churn_risk_score_mean,loyalty:c.loyalty_index_mean,color:COLORS[i%COLORS.length]}));
+  const behChart=behClusters.map((c,i)=>({name:`BC${c.Behavioral_Cluster}`,customers:c.Count,revPct:c.Revenue_Pct,clv:c.clv_mean,color:COLORS[i%COLORS.length]}));
+  return (
+    <div>
+      <div style={{...card,borderLeft:`3px solid ${T.purple}`,marginBottom:16}}>
+        <div style={{fontSize:12,color:T.subtle}}>
+          <span style={{color:T.purple,fontWeight:600}}>ML Clustering — </span>
+          K-Means on 52 behavioural, temporal and monetary features. RFM-Enhanced ({rfmChart.length} clusters) + Behavioural ({behChart.length} clusters).
+        </div>
+      </div>
+      {rfmChart.length>0&&<>
+        <div style={{fontSize:11,fontWeight:600,color:T.subtle,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:10}}>RFM-Enhanced Clusters</div>
+        <div style={{display:"grid",gridTemplateColumns:`repeat(${rfmChart.length},1fr)`,gap:10,marginBottom:16}}>
+          {rfmChart.map(c=>(
+            <div key={c.name} style={{...card,borderTop:`3px solid ${c.color}`,textAlign:"center"}}>
+              <div style={{fontSize:20,fontWeight:800,color:c.color,fontFamily:T.mono}}>{c.name}</div>
+              <div style={{fontSize:13,fontWeight:700,color:"#F0F4FF"}}>{fmtN(c.customers)}</div>
+              <div style={{fontSize:9,color:T.dim,marginBottom:8}}>customers</div>
+              <div style={{height:1,background:T.border,marginBottom:8}}/>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:4,fontSize:10,marginBottom:8}}>
+                <div><div style={{color:T.dim}}>Rev %</div><div style={{color:"#F0F4FF",fontWeight:700}}>{c.revPct}%</div></div>
+                <div><div style={{color:T.dim}}>CLV</div><div style={{color:"#F0F4FF",fontWeight:700}}>{fmt(c.clv)}</div></div>
+              </div>
+              {c.churnRisk!=null&&<div style={{fontSize:9,padding:"2px 6px",borderRadius:3,display:"inline-block",background:c.churnRisk>40?`${T.red}20`:`${T.green}20`,color:c.churnRisk>40?T.red:T.green}}>Churn {Number(c.churnRisk).toFixed(0)}%</div>}
+            </div>
+          ))}
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:16,marginBottom:16}}>
+          <div style={card}>
+            <SectionTitle accent={T.purple}>Revenue by RFM Cluster</SectionTitle>
+            <ResponsiveContainer width="100%" height={200}>
+              <BarChart data={rfmChart} margin={{top:0,right:10,left:0,bottom:0}}>
+                <XAxis dataKey="name" tick={{fill:T.subtle,fontSize:11}}/>
+                <YAxis tick={{fill:T.dim,fontSize:10}} tickFormatter={v=>`${v}%`}/>
+                <Tooltip content={<TT fmt={v=>`${v}%`}/>}/>
+                <Bar dataKey="revPct" radius={[4,4,0,0]}>{rfmChart.map((c,i)=><Cell key={i} fill={c.color}/>)}</Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div style={card}>
+            <SectionTitle accent={T.purple}>Loyalty vs Churn Risk</SectionTitle>
+            <ResponsiveContainer width="100%" height={200}>
+              <ScatterChart margin={{top:10,right:20,left:0,bottom:20}}>
+                <XAxis type="number" dataKey="churnRisk" domain={[0,80]} tick={{fill:T.dim,fontSize:9}} tickFormatter={v=>`${v}%`} label={{value:"Churn Risk %",position:"insideBottom",fill:T.dim,fontSize:9,dy:14}}/>
+                <YAxis type="number" dataKey="loyalty" domain={[0,100]} tick={{fill:T.dim,fontSize:9}} tickFormatter={v=>`${v}%`} label={{value:"Loyalty %",angle:-90,position:"insideLeft",fill:T.dim,fontSize:9}}/>
+                <ZAxis type="number" dataKey="customers" range={[60,350]}/>
+                <Tooltip content={<TT fmt={(v,n)=>n!=="customers"?`${Number(v).toFixed(1)}%`:fmtN(v)}/>}/>
+                <Scatter data={rfmChart}>{rfmChart.map((c,i)=><Cell key={i} fill={c.color}/>)}</Scatter>
+              </ScatterChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </>}
+      {behChart.length>0&&<>
+        <div style={{fontSize:11,fontWeight:600,color:T.subtle,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:10}}>Behavioural Clusters</div>
+        <div style={{display:"grid",gridTemplateColumns:`repeat(${behChart.length},1fr)`,gap:10}}>
+          {behChart.map(c=>(
+            <div key={c.name} style={{...card,borderTop:`3px solid ${c.color}`}}>
+              <div style={{fontSize:18,fontWeight:800,color:c.color,fontFamily:T.mono,marginBottom:8}}>{c.name}</div>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",gap:8}}>
+                {[["Customers",fmtN(c.customers)],["Rev %",`${c.revPct}%`],["Avg CLV",fmt(c.clv)]].map(([l,v])=>(
+                  <div key={l} style={{background:"#0A0F1E",padding:"8px",borderRadius:5}}>
+                    <div style={{fontSize:9,color:T.dim}}>{l}</div>
+                    <div style={{fontSize:12,fontWeight:700,color:"#F0F4FF",fontFamily:T.mono}}>{v}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </>}
+    </div>
+  );
+}
+
+// ── INSIGHTS TAB ─────────────────────────────────────────────────────────
+function InsightsTab({data}){
+  const [activeCategory,setActiveCategory]=useState("all");
+  const ins_data=data.insights;
+  if(!ins_data) return <div style={{...card,textAlign:"center",padding:48}}><div style={{fontSize:36,marginBottom:12}}>📋</div><div style={{fontSize:14,color:T.subtle}}>No insights data available.</div></div>;
+  const alerts=ins_data.alerts||[];
+  const insights=ins_data.insights||[];
+  const ranking=ins_data.opportunity_ranking||[];
+  const categories=["all",...new Set(insights.map(i=>i.category))];
+  const filtered=activeCategory==="all"?insights:insights.filter(i=>i.category===activeCategory);
+  const totalImpact=ranking.reduce((s,r)=>s+Number(r.revenue_impact_gbp||0),0);
+  return (
+    <div>
+      <div style={{marginBottom:20}}>
+        <SectionTitle accent={T.red}>System Alerts</SectionTitle>
+        <div style={{display:"flex",flexDirection:"column",gap:8}}>
+          {alerts.map(a=>(
+            <div key={a.alert_id} style={{...card,display:"flex",gap:14,alignItems:"flex-start",borderLeft:`3px solid ${SEVERITY_COLOR[a.severity]||T.blue}`}}>
+              <div style={{fontSize:18,marginTop:1}}>{a.severity==="RED"?"🚨":a.severity==="AMBER"?"⚠️":"✅"}</div>
+              <div style={{flex:1}}>
+                <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:4}}>
+                  <span style={{fontSize:11,fontWeight:700,color:"#F0F4FF"}}>{a.segment}</span>
+                  <span style={{fontSize:10,padding:"1px 6px",borderRadius:3,background:`${SEVERITY_COLOR[a.severity]||T.blue}20`,color:SEVERITY_COLOR[a.severity]||T.blue}}>{a.severity}</span>
+                  <span style={{fontSize:10,color:T.dim}}>{a.metric}: {typeof a.value==="number"?Number(a.value).toFixed(1):a.value}</span>
+                </div>
+                <div style={{fontSize:12,color:T.text,marginBottom:6}}>{a.message}</div>
+                <div style={{fontSize:11,color:T.subtle,fontStyle:"italic"}}>→ {a.action_required}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      {ranking.length>0&&(
+        <div style={{...card,marginBottom:20,borderLeft:`3px solid ${T.green}`}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:14}}>
+            <SectionTitle accent={T.green}>Opportunity Ranking (by Composite Score)</SectionTitle>
+            <div style={{textAlign:"right"}}>
+              <div style={{fontSize:18,fontWeight:800,color:T.green,fontFamily:T.mono}}>{fmt(totalImpact)}</div>
+              <div style={{fontSize:10,color:T.dim}}>total revenue impact</div>
+            </div>
+          </div>
+          <div style={{display:"flex",flexDirection:"column",gap:6}}>
+            {ranking.map((r,i)=>(
+              <div key={r.insight_id} style={{display:"grid",gridTemplateColumns:"24px 1fr 80px 80px 90px",gap:10,alignItems:"center",padding:"10px 12px",background:"#0A0F1E",borderRadius:6}}>
+                <div style={{fontSize:13,fontWeight:800,color:T.dim,fontFamily:T.mono,textAlign:"center"}}>{i+1}</div>
+                <div>
+                  <div style={{fontSize:12,fontWeight:600,color:"#F0F4FF"}}>{r.title}</div>
+                  <div style={{fontSize:10,color:T.subtle}}>{fmtN(r.customers_affected)} customers · {r.campaign_timing}</div>
+                </div>
+                <div style={{textAlign:"right"}}>
+                  <div style={{fontSize:12,fontWeight:700,color:T.green,fontFamily:T.mono}}>{fmt(r.revenue_impact_gbp)}</div>
+                  <div style={{fontSize:9,color:T.dim}}>impact</div>
+                </div>
+                <div style={{textAlign:"center",fontSize:10,padding:"2px 6px",borderRadius:3,background:`${PRIORITY_COLOR[r.priority]||T.blue}20`,color:PRIORITY_COLOR[r.priority]||T.blue}}>{r.priority}</div>
+                <div style={{textAlign:"center",fontSize:10,padding:"2px 6px",borderRadius:3,background:`${EFFORT_COLOR[r.effort_level]||T.blue}20`,color:EFFORT_COLOR[r.effort_level]||T.blue}}>{r.effort_level}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      <div>
+        <div style={{display:"flex",gap:6,marginBottom:12}}>
+          {categories.map(c=>(
+            <button key={c} onClick={()=>setActiveCategory(c)} style={{padding:"5px 12px",borderRadius:20,border:"none",fontSize:11,fontWeight:activeCategory===c?600:400,background:activeCategory===c?(CATEGORY_COLOR[c]||T.blue):"#1A2235",color:activeCategory===c?"#070B14":T.subtle,cursor:"pointer",fontFamily:"'IBM Plex Sans',system-ui,sans-serif",textTransform:"capitalize"}}>
+              {c.replace("_"," ")} ({c==="all"?insights.length:insights.filter(i=>i.category===c).length})
+            </button>
+          ))}
+        </div>
+        <div style={{display:"flex",flexDirection:"column",gap:10}}>
+          {filtered.map(ins=>(
+            <div key={ins.id} style={{...card,borderLeft:`3px solid ${CATEGORY_COLOR[ins.category]||T.blue}`}}>
+              <div style={{display:"flex",gap:8,alignItems:"center",marginBottom:8}}>
+                <span style={{fontSize:10,padding:"2px 6px",borderRadius:3,background:`${PRIORITY_COLOR[ins.priority]}20`,color:PRIORITY_COLOR[ins.priority]}}>{ins.priority}</span>
+                <span style={{fontSize:10,padding:"2px 6px",borderRadius:3,background:`${EFFORT_COLOR[ins.effort_level]}20`,color:EFFORT_COLOR[ins.effort_level]}}>{ins.effort_level}</span>
+                <span style={{fontSize:10,color:T.dim,fontFamily:T.mono}}>{ins.id}</span>
+                <span style={{marginLeft:"auto",fontSize:12,fontWeight:700,color:T.green,fontFamily:T.mono}}>{ins.revenue_impact>0?fmt(ins.revenue_impact):"—"}</span>
+              </div>
+              <div style={{fontSize:13,fontWeight:700,color:"#F0F4FF",marginBottom:4}}>{ins.title}</div>
+              <div style={{fontSize:12,color:T.text,marginBottom:8}}>{ins.headline}</div>
+              <div style={{fontSize:11,color:T.subtle,lineHeight:1.6,marginBottom:10}}>{ins.detail}</div>
+              <div style={{background:"#0A0F1E",padding:"10px 12px",borderRadius:6,borderLeft:`2px solid ${CATEGORY_COLOR[ins.category]||T.blue}`}}>
+                <div style={{fontSize:9,color:T.dim,textTransform:"uppercase",letterSpacing:"0.1em",marginBottom:4}}>Recommended Action</div>
+                <div style={{fontSize:11,color:T.text,lineHeight:1.6}}>{ins.recommended_action}</div>
+              </div>
+              <div style={{display:"flex",gap:16,marginTop:10}}>
+                <div style={{fontSize:10,color:T.subtle}}><span style={{color:T.dim}}>Timing: </span>{ins.campaign_timing}</div>
+                <div style={{fontSize:10,color:T.subtle}}><span style={{color:T.dim}}>Customers: </span>{fmtN(ins.customers_affected)}</div>
+                <div style={{fontSize:10,color:T.subtle}}><span style={{color:T.dim}}>Metric: </span>{ins.metric_name} = {ins.metric_value}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── MAIN APP (data pre-loaded, no upload screen) ──────────────────────────
+function App(){
+  const [fileData] = useState(INJECTED);
+  const [activeTab,setActiveTab]=useState("executive");
+
+  const tabs=[
+    {id:"executive",label:"Executive Overview",show:true},
+    {id:"segments", label:"Segment Analysis",  show:true},
+    {id:"temporal", label:"Temporal Patterns", show:!!(fileData.daily_patterns||fileData.hourly_patterns)},
+    {id:"clusters", label:"ML Clusters",       show:!!(fileData.rfm_clusters||fileData.behavioral_clusters)},
+    {id:"insights", label:"Insights & Actions",show:!!fileData.insights},
+  ];
+
+  const VIEWS={
+    executive:<ExecutiveTab data={fileData}/>,
+    segments: <SegmentsTab data={fileData}/>,
+    temporal: <TemporalTab data={fileData}/>,
+    clusters: <ClustersTab data={fileData}/>,
+    insights: <InsightsTab data={fileData}/>,
+  };
+
+  const meta=fileData._meta||{};
+
+  return (
+    <div style={{minHeight:"100vh",background:T.bg,color:T.text,fontFamily:"'IBM Plex Sans',system-ui,sans-serif",fontSize:13}}>
+      <div style={{borderBottom:`1px solid ${T.border}`,padding:"0 28px",background:"rgba(7,11,20,0.97)",position:"sticky",top:0,zIndex:100,display:"flex",alignItems:"center",justifyContent:"space-between",height:54}}>
+        <div style={{display:"flex",alignItems:"center",gap:10}}>
+          <div style={{width:26,height:26,background:`linear-gradient(135deg,${T.green},${T.blue})`,borderRadius:6,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13}}>📊</div>
+          <div>
+            <div style={{fontSize:13,fontWeight:700,color:"#F0F4FF"}}>Retail Intelligence</div>
+            <div style={{fontSize:9,color:T.dim}}>UCI Online Retail II · Generated {meta.generated_at||""}</div>
+          </div>
+        </div>
+        <div style={{display:"flex",gap:6,alignItems:"center"}}>
+          {fileData.rfm_summary&&<>
+            <div style={{fontSize:10,padding:"2px 8px",borderRadius:20,background:"#0D2818",border:`1px solid ${T.green}33`,color:T.green}}>{Number(fileData.rfm_summary.total_customers||0).toLocaleString()} Customers</div>
+            <div style={{fontSize:10,padding:"2px 8px",borderRadius:20,background:"#0D2818",border:`1px solid ${T.green}33`,color:T.green}}>{fmt(fileData.rfm_summary.total_revenue||0)}</div>
+          </>}
+          <div style={{fontSize:10,padding:"2px 8px",borderRadius:20,background:"#1A1410",border:`1px solid ${T.yellow}33`,color:T.yellow}}>{meta.files_loaded||0} files · {meta.generated_at||""}</div>
+        </div>
+      </div>
+      <div style={{display:"flex",gap:2,padding:"0 28px",borderBottom:`1px solid ${T.border}`,background:T.bg,overflowX:"auto"}}>
+        {tabs.filter(t=>t.show).map(t=>(
+          <button key={t.id} onClick={()=>setActiveTab(t.id)} style={{padding:"11px 16px",fontSize:12,fontWeight:activeTab===t.id?600:400,color:activeTab===t.id?T.green:T.muted,borderBottom:activeTab===t.id?`2px solid ${T.green}`:"2px solid transparent",cursor:"pointer",whiteSpace:"nowrap",background:"none",border:"none",fontFamily:"inherit"}}>{t.label}</button>
+        ))}
+      </div>
+      <div style={{padding:"22px 28px"}} className="fade-in" key={activeTab}>
+        {VIEWS[activeTab]}
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+
+</script>
+</body>
+</html>
